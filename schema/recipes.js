@@ -17,12 +17,12 @@ const recipeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
- 
+
   bio: {
     type: String,
   },
- 
-  
+
+
   saveduser: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -36,10 +36,10 @@ const recipeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  imageUrl: {
-    type: String,
-    require: true,
-  },
+  // imageUrl: {
+  //   type: String,
+  //   require: true,
+  // },
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);

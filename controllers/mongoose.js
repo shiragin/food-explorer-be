@@ -1,2 +1,2 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://NimrodTal:nimrod32@cluster0.uvccbpn.mongodb.net/adopt?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://Thiago:12345@cluster0.mpy1hii.mongodb.net/foodexplorerdatabase?retryWrites=true&w=majority")
