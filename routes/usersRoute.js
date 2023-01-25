@@ -5,30 +5,31 @@ const router = express.Router();
 
 router.get('/', UsersController.getUsers);
 
-router.post('/login',
-    // GlobalMiddleware.validateBody(userLoginsSchema),
-    UsersMiddleware.getData,
-    UsersMiddleware.checkIfUserExists,
-    UsersMiddleware.passwordCompare,
-    UsersMiddleware.genrateToken,
-    UsersController.login
+router.post(
+  '/login',
+  // GlobalMiddleware.validateBody(userLoginsSchema),
+  UsersMiddleware.getData,
+  UsersMiddleware.checkIfUserExists,
+  UsersMiddleware.passwordCompare,
+  UsersMiddleware.genrateToken,
+  UsersController.login
 );
 
-router.post('/signup',
-    // GlobalMiddleware.validateBody(usersSchema),
-    UsersMiddleware.isNewUser,
-    UsersMiddleware.passwordsMatch,
-    UsersMiddleware.hashPwd,
-    UsersController.signup
+router.post(
+  '/signup',
+  // GlobalMiddleware.validateBody(usersSchema),
+  UsersMiddleware.isNewUser,
+  UsersMiddleware.passwordsMatch,
+  UsersMiddleware.hashPwd,
+  UsersController.signup
 );
 
-router.put('/:userId',
-    // GlobalMiddleware.validateBody(usersSchema),
-    UsersMiddleware.isValidId,
-    UsersMiddleware.isNewUser,
-    // UsersController.editUser
+router.put(
+  '/:userId',
+  // GlobalMiddleware.validateBody(usersSchema),
+  UsersMiddleware.isValidId,
+  UsersMiddleware.isNewUser
+  // UsersController.editUser
 );
-
-// router.delete('user/:userId', UsersController.deleteUser);
 
 module.exports = router;
