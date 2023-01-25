@@ -1,3 +1,4 @@
+const { str } = require('ajv');
 const Recipe = require('../schema/recipes');
 
 async function getRecipes(req, res) {
@@ -5,6 +6,7 @@ async function getRecipes(req, res) {
   try {
     const query = req.query;
     const recipes = await Recipe.find(query);
+    console.log(recipes);
 
     res.send({
       ok: true,
