@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 // const adminCheck = require("./middleware/adminCheck")
 const app = express();
 
+
 require("dotenv").config()
 require("../food-explorer-be/controllers/mongoose");
 app.use(express.json())
@@ -26,6 +27,7 @@ app.use('/users', usersRoute);
 //     res.status(err.statusCode).send(err.message)
 // }) // then on the next i wil declare it then i can use it add err.statusCode=500 next(err.statusCode)
 // const err= new Error("password nto match")
+
 
 app.listen(8080, () => {
     console.log("server is running on port 8080")

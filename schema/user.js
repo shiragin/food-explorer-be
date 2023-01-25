@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  savedrecipes: [{
+  reviewDishes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Recipe'
   }],
