@@ -73,18 +73,24 @@ const checkIfUserExists = async (req, res, next) => {
 }
 
 const passwordCompare = async (req, res, next) => {
-    const user = req.user
-    const password = req.password
 
-    const isPasswordMatch = await bcrypt.compare(password, user.password)
-    if (!isPasswordMatch) {
+    const user = req.body.user
+    const password = req.body.password
+
+    console.log('user', user, 'password', password);
+    try {
+        const isPasswordMatch = await bcrypt.compare(password, user.password)
+        if (!isPasswordMatch) {
+            return res.status(404).send("passwords dosent match!")
+        }
+        next()
+    } catch (err) {
         return res.status(404).send("passwords dosent match!")
     }
-    next()
 }
 
 const genrateToken = async (req, res, next) => {
-    const user = req.user
+    const user = req.body.user
     const token = user.generateAuthToken()
     req.body.token = token;
     // res.cookie("token", token, { httpOnly: true })
