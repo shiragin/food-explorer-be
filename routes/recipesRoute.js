@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/', convertCodes, getRecipes);
 
-router.get('rate/:id', auth, async (req, res) => {
+router.put('/rate/:id', auth, async (req, res) => {
     console.log(req.params, 'hey look at me')
     try {
         const { id } = req.params;
@@ -18,12 +18,12 @@ router.get('rate/:id', auth, async (req, res) => {
         // const recipe = await Recipe.find({ "reviews.user": userId }).populate("reviews.user");
         // console.log(recipes, 'hey look at me im ms meeskes');
 
-        const userId = user.id;
+        const userId = req.user.id;
         const recipe = await Recipe.findOne({ "reviews": { "$elemMatch": { "user": userId } } });
 
         res.send({
             ok: true,
-            data: recipes,
+            data: recipe,
         });
     } catch (err) {
         console.log(err);
@@ -31,7 +31,7 @@ router.get('rate/:id', auth, async (req, res) => {
     }
 });
 
-router.get(':id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     console.log(req.params, 'hey look at me')
     try {
         const params = req.params;
