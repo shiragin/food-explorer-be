@@ -15,7 +15,7 @@ require('dotenv').config();
 
 function passwordsMatch(req, res, next) {
     if (req.body.password !== req.body.repassword) {
-        res.status(400).send("Passwords dont match");
+        res.status(500).send("Passwords dont match");
         return;
     }
     delete req.body.repassword;
@@ -43,7 +43,7 @@ const isValidId = async (req, res, next) => {
     const user = await User.findOne({ userId })
     // console.log(user);
     if (!user) {
-        res.status(400).send('There is no existing user selected');
+        res.status(500).send('There is no existing user selected');
         return;
     }
     next();
@@ -54,7 +54,7 @@ const isNewUser = async (req, res, next) => {
     const { email } = req.body;
     const user = await User.findOne({ email })
     if (user) {
-        res.status(400).send('User already exists');
+        res.status(500).send('User already exists');
         return;
     }
     next();
@@ -78,23 +78,23 @@ const getData = async (req, res, next) => {
     //     },
     //     review: {
     //       type: Number,
-    //       default: 3
+    //       default: 5
     //     }
     //   }],
 
     // console.log('allUsers', allUsers);
     try {
-        for (let i = 0; i < allUsers.length; i++) {
-            allUsers[i].reviewDishes = []
-            for (let j = 0; i < allReceipes.length; j++) {
-                if (!allUsers[i].reviewDishes[j]) allUsers[i].reviewDishes[j] = {}
-                if (!allUsers[i].reviewDishes[j].dish) allUsers[i].reviewDishes[j].dish = {}
-                allUsers[i].reviewDishes[j].dish = allReceipes[j]
-                const updatedUser = await findOneAndUpdate(allUsers[i]._id, allUsers[i])
+        // for (let i = 0; i < allUsers.length; i++) {
+        allUsers[5].reviewDishes = []
+        for (let j = 0; j < allReceipes.length; j++) {
+            if (!allUsers[5].reviewDishes[j]) allUsers[5].reviewDishes[j] = {}
+            if (!allUsers[5].reviewDishes[j].dish) allUsers[5].reviewDishes[j].dish = {}
+            allUsers[5].reviewDishes[j].dish = allReceipes[j]
+            const updatedUser = await User.findOneAndUpdate(allUsers[5]._id, allUsers[5])
 
-                updatedUser.save();
-            }
+            updatedUser.save();
         }
+        // }
     } catch (err) {
         console.log('thi is the error', err);
     }
@@ -117,7 +117,7 @@ const getData = async (req, res, next) => {
 
     //     let ingredientArray = [];
 
-    //     for (let i = 1; i <= 20; i++) {
+    //     for (let i = 1; i <= 50; i++) {
     //         let ingredient = data[0][`strIngredient${i}`];
     //         if (ingredient) {
     //             ingredientArray.push(ingredient);
@@ -128,7 +128,7 @@ const getData = async (req, res, next) => {
 
     //     let strMeasureArray = [];
 
-    //     for (let i = 1; i <= 20; i++) {
+    //     for (let i = 1; i <= 50; i++) {
     //         let strmeasure = data[0][`strMeasure${i}`];
     //         if (strmeasure) {
     //             strMeasureArray.push(strmeasure);
@@ -237,7 +237,7 @@ const checkIfUserExists = async (req, res, next) => {
         const user = await User.findOne({ email })
 
         if (!user) {
-            res.status(400).send('User with this email does not exist');
+            res.status(500).send('User with this email does not exist');
             return;
         }
         req.body.user = user;
@@ -256,11 +256,11 @@ const passwordCompare = async (req, res, next) => {
     try {
         const isPasswordMatch = await bcrypt.compare(password, user.password)
         if (!isPasswordMatch) {
-            return res.status(404).send("Incorrect password!")
+            return res.status(505).send("Incorrect password!")
         }
         next()
     } catch (err) {
-        return res.status(404).send("Incorrect password!")
+        return res.status(505).send("Incorrect password!")
     }
 }
 
