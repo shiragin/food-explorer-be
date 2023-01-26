@@ -8,7 +8,7 @@ router.get('/', UsersController.getUsers);
 router.post(
     '/login',
     // GlobalMiddleware.validateBody(userLoginsSchema),
-    UsersMiddleware.getData,
+    // UsersMiddleware.getData,
     UsersMiddleware.checkIfUserExists,
     UsersMiddleware.passwordCompare,
     UsersMiddleware.genrateToken,

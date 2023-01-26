@@ -38,6 +38,7 @@ const login = async (req, res) => {
   try {
     const { user, token } = req.body;
     res.send({ user, token });
+
   } catch (err) {
     res.status(500).send(err);
   }
