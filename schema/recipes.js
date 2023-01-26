@@ -22,22 +22,22 @@ const recipeSchema = new mongoose.Schema({
   strIngredient: [{
     type: String
   }],
+  reviews: [{
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    reviewed: {
+      type: Boolean,
+      default: false
+    }
+  }],
   strMeasure: [{
     type: String,
   }],
   strMealThumb: {
     type: String
   }
-  // saveduser: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: "User"
-  //   },
-  // ],
-  // imageUrl: {
-  //   type: String,
-  //   require: true,
-  // },
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);

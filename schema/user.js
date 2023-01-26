@@ -9,9 +9,20 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   reviewDishes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Recipe'
+    dish: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Recipe',
+    },
+    reviewed: {
+      type: Boolean,
+      default: false
+    },
+    review: {
+      type: Number,
+      default: 3
+    }
   }],
+
   password: {
     type: String,
     required: true,

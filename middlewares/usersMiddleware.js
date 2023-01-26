@@ -7,6 +7,7 @@ const User = require('../schema/user')
 const axios = require('axios');
 const recipeSchema = require('../schema/recipes');
 const Recipe = require('../schema/recipes');
+const { findOneAndUpdate } = require('../schema/user');
 
 require('dotenv').config();
 // const cookieParser = require('cookie-parser');
@@ -60,178 +61,49 @@ const isNewUser = async (req, res, next) => {
 };
 
 const getData = async (req, res, next) => {
+    const allUsers = await User.find();
 
+    const allReceipes = await Recipe.find();
 
-    // console.log('res data', a.data);
-    let b = []
+    //this is updating users
 
-    // let a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=thai');
-    // a = a.data.meals
+    // reviewDishes: [{
+    //     dish: {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       ref: 'Recipe',
+    //     },
+    //     reviewed: {
+    //       type: Boolean,
+    //       default: false
+    //     },
+    //     review: {
+    //       type: Number,
+    //       default: 3
+    //     }
+    //   }],
 
-    // for (let i = 0; i < a.length; i++) {
-    //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     console.log('This is the id', a[i].idMeal);
-    //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     // console.log(data);
-    //     // b.push(data)
-    //     data = data.data.meals
+    // console.log('allUsers', allUsers);
+    try {
+        for (let i = 0; i < allUsers.length; i++) {
+            allUsers[i].reviewDishes = []
+            for (let j = 0; i < allReceipes.length; j++) {
+                if (!allUsers[i].reviewDishes[j]) allUsers[i].reviewDishes[j] = {}
+                if (!allUsers[i].reviewDishes[j].dish) allUsers[i].reviewDishes[j].dish = {}
+                allUsers[i].reviewDishes[j].dish = allReceipes[j]
+                const updatedUser = await findOneAndUpdate(allUsers[i]._id, allUsers[i])
 
-    //     const receipe = new Recipe(...data);
-    //     await receipe.save()
-    // }
+                updatedUser.save();
+            }
+        }
+    } catch (err) {
+        console.log('thi is the error', err);
+    }
+    //this is updating users
 
+    //this is inserting into receipes
+    // let b = []
 
-    // // a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=american');
-    // // a = a.data.meals
-
-    // // for (let i = 0; i < a.length; i++) {
-    // //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    // //     console.log('This is the id', a[i].idMeal);
-    // //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    // //     // console.log(data);
-    // //     // b.push(data)
-    // //     data = data.data.meals
-
-    // //     const receipe = new Recipe(...data);
-    // //     await receipe.save()
-    // // }
-
-    // a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=british');
-    // a = a.data.meals
-
-    // for (let i = 0; i < a.length; i++) {
-    //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     console.log('This is the id', a[i].idMeal);
-    //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     // console.log(data);
-    //     // b.push(data)
-    //     data = data.data.meals
-
-    //     const receipe = new Recipe(...data);
-    //     await receipe.save()
-    // }
-
-    // a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=french');
-    // a = a.data.meals
-
-    // for (let i = 0; i < a.length; i++) {
-    //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     console.log('This is the id', a[i].idMeal);
-    //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     // console.log(data);
-    //     // b.push(data)
-    //     data = data.data.meals
-
-    //     const receipe = new Recipe(...data);
-    //     await receipe.save()
-    // }
-
-    // a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=Canadian');
-    // a = a.data.meals
-
-    // for (let i = 0; i < a.length; i++) {
-    //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     console.log('This is the id', a[i].idMeal);
-    //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     // console.log(data);
-    //     // b.push(data)
-    //     data = data.data.meals
-
-    //     const receipe = new Recipe(...data);
-    //     await receipe.save()
-    // }
-
-    // a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=italian');
-    // a = a.data.meals
-
-    // for (let i = 0; i < a.length; i++) {
-    //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     console.log('This is the id', a[i].idMeal);
-    //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     // console.log(data);
-    //     // b.push(data)
-    //     data = data.data.meals
-
-    //     const receipe = new Recipe(...data);
-    //     await receipe.save()
-    // }
-
-    // a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=japanese');
-    // a = a.data.meals
-
-    // for (let i = 0; i < a.length; i++) {
-    //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     console.log('This is the id', a[i].idMeal);
-    //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     // console.log(data);
-    //     // b.push(data)
-    //     data = data.data.meals
-
-    //     const receipe = new Recipe(...data);
-    //     await receipe.save()
-    // }
-
-    // a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=chinese');
-    // a = a.data.meals
-
-    // for (let i = 0; i < a.length; i++) {
-    //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     console.log('This is the id', a[i].idMeal);
-    //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     // console.log(data);
-    //     // b.push(data)
-    //     data = data.data.meals
-
-    //     const receipe = new Recipe(...data);
-    //     await receipe.save()
-    // }
-
-    // a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=spanish');
-    // a = a.data.meals
-
-    // for (let i = 0; i < a.length; i++) {
-    //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     console.log('This is the id', a[i].idMeal);
-    //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     // console.log(data);
-    //     // b.push(data)
-    //     data = data.data.meals
-
-    //     const receipe = new Recipe(...data);
-    //     await receipe.save()
-    // }
-
-    // a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=malaysian');
-    // a = a.data.meals
-
-    // for (let i = 0; i < a.length; i++) {
-    //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     console.log('This is the id', a[i].idMeal);
-    //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     // console.log(data);
-    //     // b.push(data)
-    //     data = data.data.meals
-
-    //     const receipe = new Recipe(...data);
-    //     await receipe.save()
-    // }
-
-    // a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=indian');
-    // a = a.data.meals
-
-    // for (let i = 0; i < a.length; i++) {
-    //     let data = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     console.log('This is the id', a[i].idMeal);
-    //     console.log('url asdfasdf', `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     // console.log(data);
-    //     // b.push(data)
-    //     data = data.data.meals
-
-    //     const receipe = new Recipe(...data);
-    //     await receipe.save()
-    // }
-
-    // let a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=Croatian');
+    // let a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=Vietnamese');
     // a = a.data.meals
 
     // for (let i = 0; i < a.length; i++) {
@@ -266,6 +138,20 @@ const getData = async (req, res, next) => {
     //     data.strMeasure = strMeasureArray;
 
 
+
+    //     console.log('data[0]', data[0]);
+
+    //     data[0].reviews = [{}]
+
+    //     for (let i = 0; i < allUsers.length; i++) {
+    //         if (!data[0].reviews[i]) data[0].reviews[i] = {}
+    //         data[0].reviews[i].user = {}
+    //         data[0].reviews[i].user = allUsers[i];
+    //         // data.reviews[i].reviewed = false;
+    //     }
+
+    //     console.log('data[0].reviews', data[0].reviews);
+
     //     const newRecipe = new Recipe({
     //         idMeal: data[0].idMeal,
     //         strCategory: data[0].strCategory,
@@ -274,52 +160,18 @@ const getData = async (req, res, next) => {
     //         strArea: data[0].strArea,
     //         strIngredient: [...ingredientArray],
     //         strMealThumb: data[0].strMealThumb,
-    //         strMeasure: [...strMeasureArray]
+    //         strMeasure: [...strMeasureArray],
+    //         reviews: data[0].reviews
     //     });
 
     //     newRecipe.save()
 
-
-
-    //     // const d = {
-    //     //     strCategory,
-    //     //     strMeal,
-    //     //     strInstructions,
-    //     //     strArea,
-    //     //     strMealThumb
-    //     // } = data
-
-    //     // console.log('this is data', ...data);
-    //     // const receipe = new Recipe(...data);
-    //     // await receipe.save()
-    //     // console.log('data.data', data.data.meals);
-    //     // for (let i = 0; i < a.length; i++) {
-    //     //     b = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     //     for (let prop in b) {
-    //     //         if (prop.substring(0, 9) === 'strMeasure') {
-    //     //             console.log(prop + ': ' + obj[prop]);
-    //     //             b.strMeasure.push()
-    //     //         }
-    //     //     }
-    //     // }
     // }
 
+    //this is inserting into receipes
 
 
 
-    // a = axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=Canada');
-    // for (let i = 0; i < a.length; i++) {
-    //     b = axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[i].idMeal}`);
-    //     for (let prop in b) {
-    //         if (prop.substring(0, 9) === 'strMeasure') {
-    //             console.log(prop + ': ' + obj[prop]);
-    //             b.strMeasure.push()
-    //         }
-    //     }
-    // }
-
-    // let a = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=Canadian');
-    // console.log('this is the response', a.data.meals);
 
     next()
     //           case 'US':
